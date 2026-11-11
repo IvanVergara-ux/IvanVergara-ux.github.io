@@ -25,6 +25,6 @@ export const siteConfig = Object.freeze({
   ]),
   // Estadísticas: crea una cuenta gratis en https://www.goatcounter.com y pon aquí tu código
   // (por ejemplo 'ivanvergara' si tu panel es ivanvergara.goatcounter.com). null = desactivadas.
-  analytics: Object.freeze({ goatcounter: null }),
+  analytics: Object.freeze({ goatcounter: 'ivanvergara' }),
   fallbackLocale: 'es',
 });
