@@ -25,7 +25,7 @@ export default {
     titleFull: 'I turn your ideas into websites that sell, apps that retain, smart systems and sales that grow',
     role: 'Software developer',
     text: 'I design and build custom digital solutions that attract customers, automate processes and strengthen your brand. I work with you from the first idea to launch.',
-    primary: 'Request a quote',
+    primary: 'Get a free quote',
     code: {
       file: 'your-project.js',
       comment: '// Your next project',
@@ -39,7 +39,7 @@ export default {
       footer: 'No errors, ready for production',
     },
     secondary: 'View projects',
-    message: 'Hi Iván, I saw your portfolio and would like a quote for a project.',
+    message: 'Hi Iván, I saw your portfolio and would like a free quote for a project.',
     stats: {
       projects: 'Projects',
       technologies: 'Technologies',
@@ -53,11 +53,11 @@ export default {
     title: 'Solutions for every stage of your business',
     intro: 'Every project starts with an analysis of your needs. You receive a proposal with defined scope, investment and timeline before any work begins.',
     fit: 'Ideal for',
-    quote: 'Get a quote',
+    quote: 'Free quote',
     quoteLabel: 'Get a quote for {service} on WhatsApp',
     tabs: 'Available services',
     includes: 'Includes',
-    message: 'Hi Iván, I would like a quote for {service}.',
+    message: 'Hi Iván, I would like a free quote for {service}.',
   },
   commitments: {
     title: 'Why work with me',
@@ -99,7 +99,7 @@ export default {
   },
   contact: {
     title: 'Let’s bring your next project to life',
-    text: 'Tell me about your business and your goals. You will receive a clear proposal with scope, investment and delivery timeline.',
+    text: 'Tell me about your business and your goals. You will receive a free, no-obligation quote with scope, investment and delivery timeline.',
     email: 'Email',
     whatsapp: 'WhatsApp',
     github: 'GitHub',

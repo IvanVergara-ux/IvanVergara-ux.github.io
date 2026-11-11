@@ -25,7 +25,7 @@ export default {
     titleFull: 'Convierto tus ideas en webs que venden, apps que fidelizan, sistemas eficientes y ventas que crecen',
     role: 'Desarrollador de software',
     text: 'Diseño y desarrollo soluciones digitales a la medida que atraen clientes, automatizan procesos y fortalecen tu marca. Te acompaño desde la idea hasta el lanzamiento.',
-    primary: 'Solicitar cotización',
+    primary: 'Solicitar cotización gratis',
     code: {
       file: 'tu-proyecto.js',
       comment: '// Tu próximo proyecto',
@@ -39,7 +39,7 @@ export default {
       footer: 'Sin errores, listo para producción',
     },
     secondary: 'Ver proyectos',
-    message: 'Hola Iván, vi tu portafolio y me gustaría cotizar un proyecto.',
+    message: 'Hola Iván, vi tu portafolio y me gustaría solicitar una cotización gratis para un proyecto.',
     stats: {
       projects: 'Proyectos',
       technologies: 'Tecnologías',
@@ -53,11 +53,11 @@ export default {
     title: 'Soluciones para cada etapa de tu negocio',
     intro: 'Cada proyecto inicia con un análisis de tus necesidades. Recibes una propuesta con alcance, inversión y tiempos definidos antes de comenzar.',
     fit: 'Ideal para',
-    quote: 'Cotizar',
+    quote: 'Cotizar gratis',
     quoteLabel: 'Cotizar {service} por WhatsApp',
     tabs: 'Servicios disponibles',
     includes: 'Incluye',
-    message: 'Hola Iván, me gustaría cotizar {service}.',
+    message: 'Hola Iván, me gustaría una cotización gratis para {service}.',
   },
   commitments: {
     title: 'Por qué trabajar conmigo',
@@ -99,7 +99,7 @@ export default {
   },
   contact: {
     title: 'Hagamos realidad tu próximo proyecto',
-    text: 'Cuéntame sobre tu negocio y tus objetivos. Recibirás una propuesta clara con el alcance, la inversión y los tiempos de entrega.',
+    text: 'Cuéntame sobre tu negocio y tus objetivos. Recibirás una cotización gratis y sin compromiso, con el alcance, la inversión y los tiempos de entrega.',
     email: 'Correo',
     whatsapp: 'WhatsApp',
     github: 'GitHub',

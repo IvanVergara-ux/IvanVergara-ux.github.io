@@ -6,7 +6,7 @@ export const heroWords = Object.freeze({
 });
 
 export const trustPoints = Object.freeze([
-  { es: 'Propuesta detallada antes de iniciar', en: 'Detailed proposal before we start' },
+  { es: 'Cotización gratis y sin compromiso', en: 'Free, no-obligation quote' },
   { es: 'Comunicación directa durante todo el proyecto', en: 'Direct communication throughout' },
   { es: 'Avances que puedes revisar', en: 'Progress you can review' },
   { es: 'Atención en español e inglés', en: 'Service in Spanish and English' },

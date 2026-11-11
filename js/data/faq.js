@@ -2,8 +2,8 @@ export const faq = Object.freeze([
   {
     q: { es: '¿Cuánto cuesta un proyecto?', en: 'How much does a project cost?' },
     a: {
-      es: 'La inversión depende del alcance: número de secciones y funcionalidades como tienda en línea, formularios o panel administrativo. Tras conocer tu idea, recibes una cotización detallada con el valor exacto.',
-      en: 'The investment depends on scope: number of sections and features such as an online store, forms or an admin panel. Once I understand your idea, you receive a detailed quote with the exact price.',
+      es: 'La inversión depende del alcance: número de secciones y funcionalidades como tienda en línea, formularios o panel administrativo. Tras conocer tu idea, recibes una cotización detallada con el valor exacto, gratis y sin compromiso.',
+      en: 'The investment depends on scope: number of sections and features such as an online store, forms or an admin panel. Once I understand your idea, you receive a detailed quote with the exact price, free and with no obligation.',
     },
   },
   {
