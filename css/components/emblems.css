@@ -1,0 +1,20 @@
+/* Emblemas a dos tonos (js/ui/emblems.js). Cada tono define su color fuerte y su color suave. */
+
+.emblem {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  line-height: 0;
+}
+
+.emblem--mint { --e-main: #0B7A62; --e-soft: #BFEBD9; }
+.emblem--amber { --e-main: #C98A12; --e-soft: #FCE6B6; }
+.emblem--sky { --e-main: #2D6FA3; --e-soft: #CFE6F6; }
+.emblem--ink { --e-main: #0E1B17; --e-soft: #D3DDD8; }
+.emblem--night { --e-main: #A9EBD1; --e-soft: rgb(169 235 209 / 22%); }
+
+.flag {
+  flex: none;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgb(14 27 23 / 10%);
+}

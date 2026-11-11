@@ -1,0 +1,89 @@
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  min-height: 2.75rem;
+  padding: var(--space-2) var(--space-5);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  font: 600 var(--text-base) / 1.2 var(--font-sans);
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--ease-out), box-shadow 160ms ease;
+}
+
+.button--sm {
+  min-height: 2.5rem;
+  padding-inline: var(--space-4);
+  font-size: var(--text-sm);
+}
+
+.button--lg {
+  min-height: 3.25rem;
+  padding-inline: var(--space-6);
+}
+
+.button--primary {
+  background: var(--color-accent);
+  color: var(--color-on-accent);
+  box-shadow: 0 8px 20px -10px var(--color-accent);
+}
+
+.button--primary:hover {
+  background: var(--color-accent-hover);
+  transform: translateY(-1px);
+}
+
+.button--soft {
+  background: var(--color-surface);
+  border-color: var(--color-line);
+  color: var(--color-text);
+}
+
+.button--soft:hover {
+  border-color: var(--color-accent);
+}
+
+.round-icon {
+  display: inline-grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 1px solid var(--color-line);
+  border-radius: 50%;
+  background: var(--color-surface);
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease;
+}
+
+.button--dark {
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.button--dark:hover {
+  background: var(--color-accent);
+}
+
+/* Enlace secundario con flecha que avanza al pasar el cursor */
+.arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  min-height: 3.25rem;
+  padding-inline: var(--space-2);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.arrow-link .icon {
+  transition: transform 180ms var(--ease-out);
+}
+
+.arrow-link:hover {
+  color: var(--color-accent);
+}
+
+.arrow-link:hover .icon {
+  transform: translateX(4px);
+}

@@ -1,0 +1,90 @@
+.section--contact {
+  padding-top: 0;
+}
+
+.contact-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--space-7);
+  align-items: center;
+  padding: clamp(var(--space-6), 5vw, var(--space-8));
+  border-radius: var(--radius-xl);
+  background: var(--color-text);
+  color: var(--color-surface);
+}
+
+.contact-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(45% 60% at 10% 100%, color-mix(in srgb, var(--color-accent) 55%, transparent), transparent 70%),
+    linear-gradient(to right, color-mix(in srgb, var(--color-surface) 7%, transparent) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-surface) 7%, transparent) 1px, transparent 1px) 0 0 / var(--grid-size) var(--grid-size);
+}
+
+.contact-card__copy {
+  display: grid;
+  gap: var(--space-5);
+}
+
+.contact-card__title {
+  font-size: var(--text-2xl);
+  font-weight: 800;
+}
+
+.contact-card__text {
+  max-width: 46ch;
+  color: color-mix(in srgb, var(--color-surface) 75%, transparent);
+  font-size: var(--text-lg);
+}
+
+.contact-card__details {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.contact-card__details li {
+  display: grid;
+  grid-template-columns: auto 6rem 1fr;
+  align-items: center;
+  gap: var(--space-3);
+  color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  font-size: var(--text-sm);
+}
+
+.contact-card__details .text-link {
+  padding-block: var(--space-2);
+  color: var(--color-surface);
+  font-size: var(--text-base);
+  text-decoration-color: var(--brillo-menta);
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 900px) {
+  .contact-card {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 560px) {
+  .contact-card {
+    padding: var(--space-5);
+    border-radius: var(--radius-lg);
+  }
+}
+
+@media (max-width: 480px) {
+  .contact-card__details li {
+    grid-template-columns: auto 1fr;
+  }
+
+  .contact-card__details .text-link {
+    grid-column: 1 / -1;
+  }
+}

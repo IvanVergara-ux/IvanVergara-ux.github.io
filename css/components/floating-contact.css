@@ -1,0 +1,45 @@
+/* Píldora de WhatsApp: aparece cuando la portada sale de la pantalla */
+
+.floating-contact {
+  position: fixed;
+  right: var(--space-5);
+  bottom: var(--space-5);
+  z-index: 15;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-5) var(--space-2) var(--space-2);
+  border-radius: var(--radius-pill);
+  background: var(--color-text);
+  color: var(--color-surface);
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 14px 30px -12px rgb(14 27 23 / 55%);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px);
+  transition: opacity 220ms ease, transform 260ms var(--ease-out), background-color 180ms ease;
+}
+
+#floating-contact.is-visible .floating-contact {
+  opacity: 1;
+  pointer-events: auto;
+  transform: none;
+}
+
+.floating-contact:hover {
+  background: var(--color-accent);
+}
+
+.floating-contact__icon {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+
+.floating-contact:hover .floating-contact__icon {
+  background: var(--color-text);
+}
