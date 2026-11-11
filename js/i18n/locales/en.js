@@ -57,6 +57,7 @@ export default {
     quoteLabel: 'Get a quote for {service} on WhatsApp',
     priceFrom: 'From',
     priceNote: 'Final price depends on scope. Quotes are free.',
+    payment: 'Flexible payment: upfront, in installments or monthly. Message me and we will agree on what works for you.',
     tabs: 'Available services',
     includes: 'Includes',
     message: 'Hi Iván, I would like a free quote for {service}.',

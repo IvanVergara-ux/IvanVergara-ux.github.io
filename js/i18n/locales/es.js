@@ -57,6 +57,7 @@ export default {
     quoteLabel: 'Cotizar {service} por WhatsApp',
     priceFrom: 'Desde',
     priceNote: 'El valor final depende del alcance. La cotización es gratis.',
+    payment: 'Pago flexible: de contado, por cuotas o mensual. Escríbeme y lo acordamos a tu medida.',
     tabs: 'Servicios disponibles',
     includes: 'Incluye',
     message: 'Hola Iván, me gustaría una cotización gratis para {service}.',

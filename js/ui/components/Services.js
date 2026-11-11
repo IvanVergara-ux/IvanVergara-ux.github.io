@@ -89,6 +89,7 @@ export class Services extends Component {
               <span>${this.t('services.priceFrom')}</span>
               <strong>${formatCop(service.priceFrom, this.i18n.locale)}</strong>
               <small>${this.t('services.priceNote')}</small>
+              <small class="service-panel__payment">${this.t('services.payment')}</small>
             </p>`
           : ''}
         <a class="button button--primary" href="${href}" target="_blank" rel="noopener noreferrer"
