@@ -60,7 +60,7 @@ export default {
     message: 'Hi Iván, I would like a free quote for {service}.',
   },
   commitments: {
-    title: 'Why work with me',
+    title: 'Why work with me?',
     intro: 'Concrete commitments that keep your project moving without setbacks.',
   },
   projects: {
