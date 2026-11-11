@@ -104,6 +104,9 @@ export default {
     whatsapp: 'WhatsApp',
     github: 'GitHub',
   },
+  offline: {
+    message: 'You are offline. You can keep browsing; WhatsApp and links will work once you are back online.',
+  },
   footer: {
     tagline: 'Web development, mobile apps and custom software for businesses and entrepreneurs in Colombia and worldwide.',
     navTitle: 'Sections',

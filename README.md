@@ -17,7 +17,8 @@ js/
   config/navigation.js     Enlaces del menú y del pie de página
   data/*.js                Proyectos, servicios, compromisos, pasos, preguntas frecuentes, portada y opciones del mensaje
   i18n/                    Servicio de idioma, preferencia guardada y textos (locales/es.js, locales/en.js)
-  services/                WhatsApp, metadatos, palabras que rotan, contadores animados, cifras y preferencia de movimiento
+  app/createComponents.js  Fábrica de componentes (la usan el navegador y la compilación)
+  services/                WhatsApp, metadatos, frases que rotan, contadores, cifras, movimiento y service worker
   ui/Component.js          Clase base: contrato común de todos los componentes
   ui/components/*.js       Un componente por sección
   utils/html.js            Plantillas con escape automático (evita inyección de HTML)
@@ -55,7 +56,13 @@ python -m http.server 8000
 
 ## Versión de producción (compilada)
 
-Para publicar, el sitio se compila en `dist/`: todos los módulos se unen en **un solo JavaScript** y todas las hojas en **un solo CSS**, ambos minificados. Carga 2 archivos en lugar de ~33, pesa menos y el código publicado es difícil de leer.
+Para publicar, el sitio se compila en `dist/`:
+
+- **HTML prerenderizado**: la página completa queda escrita en `index.html` (en español). Se ve al instante aunque el internet sea lento o el JavaScript no cargue, y Google la puede leer. Luego el JavaScript la activa (pestañas, idioma, animaciones) sin repetir la animación de entrada.
+- **Un solo JavaScript y un solo CSS minificados**: 2 archivos en lugar de ~33.
+- **Service worker (`sw.js`)**: guarda la página en el dispositivo del visitante. Las visitas siguientes abren al instante y la página funciona sin internet. Cada compilación nueva reemplaza lo guardado. En Live Server no se activa, para no guardar versiones de prueba.
+
+El HTML prerenderizado sale de los mismos componentes que usa el navegador (`js/app/createComponents.js`), así que nunca hay dos versiones distintas del contenido.
 
 ```bash
 npm install      # solo la primera vez (requiere Node.js)

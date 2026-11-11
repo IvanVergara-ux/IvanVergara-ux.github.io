@@ -46,10 +46,11 @@ export class Hero extends Component {
     });
 
     // Cerrar al hacer clic fuera o con Escape
-    document.addEventListener('click', (event) => {
+    const doc = this.root.ownerDocument;
+    doc?.addEventListener('click', (event) => {
       if (!event.target.closest('[data-stat]')) this.#toggleStat(null);
     });
-    document.addEventListener('keydown', (event) => {
+    doc?.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape') return;
       const open = this.root.querySelector('[data-stat].is-open');
       if (!open) return;
@@ -120,7 +121,7 @@ export class Hero extends Component {
   #placePanel(stat) {
     const panel = stat.querySelector('.stat__panel');
     if (!panel) return;
-    const headerHeight = document.getElementById('site-header')?.offsetHeight ?? 0;
+    const headerHeight = this.root.ownerDocument.getElementById('site-header')?.offsetHeight ?? 0;
     const spaceAbove = stat.getBoundingClientRect().top - headerHeight;
     stat.classList.toggle('opens-down', spaceAbove < panel.offsetHeight + 16);
   }

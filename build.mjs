@@ -1,7 +1,10 @@
 // Compila el sitio para publicarlo: genera la carpeta dist/ con
+//   - index.html PRERENDERIZADO: la página completa ya escrita en el HTML (se ve al instante,
+//     aunque el internet sea lento o el JavaScript no cargue; también ayuda a Google)
 //   - un solo JavaScript minificado (todos los módulos unidos)
 //   - un solo CSS minificado (todas las hojas en el orden de index.html)
-//   - index.html apuntando a esos dos archivos
+//   - sw.js: service worker que guarda la página en el dispositivo (visitas siguientes
+//     instantáneas y funcionamiento sin conexión)
 //   - la carpeta assets/ tal cual
 // El código fuente (js/, css/) no se modifica: se sigue trabajando ahí con Live Server.
 //
@@ -9,8 +12,10 @@
 //      npm run build
 
 import { build, transform } from 'esbuild';
-import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { cp, mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
+import { join, relative, sep } from 'node:path';
+import { createComponents, createI18n, firstHeroWord } from './js/app/createComponents.js';
 
 const OUT = 'dist';
 const STYLESHEET = /^\s*<link rel="stylesheet" href="(css\/[^"]+)">\s*$/gm;
@@ -42,6 +47,68 @@ async function bundleStyles(html) {
   return name;
 }
 
+/** Escribe dentro de cada región de index.html el HTML que genera su componente (en español). */
+function prerender(html) {
+  const fakeRoot = (id) => ({
+    id,
+    ownerDocument: null,
+    addEventListener() {},
+    classList: { add() {}, remove() {}, toggle() {} },
+    querySelector: () => null,
+    querySelectorAll: () => [],
+  });
+  const roots = new Map();
+  const region = (id) => {
+    if (!roots.has(id)) roots.set(id, fakeRoot(id));
+    return roots.get(id);
+  };
+
+  const i18n = createI18n();
+  const browser = {
+    createRotator: () => ({ start() {}, stop() {} }),
+    countUp: { observe() {}, disconnect() {} },
+    isOnline: () => true,
+  };
+  const { components } = createComponents({ region, i18n, browser });
+
+  let output = html;
+  for (const component of components) {
+    const { id } = component.root;
+    const markup = component
+      .template()
+      .toString()
+      .trim()
+      .replace(/data-rotator><\/span>/g, `data-rotator>${firstHeroWord(i18n.locale)}</span>`);
+    const regionTag = new RegExp(`(<(\\w+) id="${id}"[^>]*>)(</\\2>)`);
+    if (!regionTag.test(output)) throw new Error(`index.html no tiene la región #${id}`);
+    output = output.replace(regionTag, (_, open, _tag, close) => `${open}${markup}${close}`);
+  }
+  return output.replace('<html lang="es">', '<html lang="es" data-prerendered>');
+}
+
+async function listFiles(dir) {
+  const entries = await readdir(dir, { withFileTypes: true });
+  const nested = await Promise.all(
+    entries.map((entry) => (entry.isDirectory() ? listFiles(join(dir, entry.name)) : [join(dir, entry.name)])),
+  );
+  return nested.flat();
+}
+
+async function writeServiceWorker() {
+  const files = (await listFiles(OUT))
+    .map((file) => relative(OUT, file).split(sep).join('/'))
+    .filter((file) => file !== 'sw.js' && !file.startsWith('.'));
+  const contents = await Promise.all(files.map((file) => readFile(join(OUT, file))));
+  const version = hash(Buffer.concat(contents));
+  const template = await readFile('sw.template.js', 'utf8');
+  const code = template
+    .replaceAll('__VERSION__', version)
+    .replaceAll('__PRECACHE__', JSON.stringify(['./', ...files.filter((file) => file !== 'index.html')]));
+  const { code: minified } = await transform(code, { loader: 'js', minify: true });
+  await writeFile(`${OUT}/sw.js`, minified);
+  return version;
+}
+
 async function main() {
   await rm(OUT, { recursive: true, force: true });
   await mkdir(OUT, { recursive: true });
@@ -50,7 +117,7 @@ async function main() {
   const [script, styles] = await Promise.all([bundleScripts(), bundleStyles(html)]);
 
   let firstStylesheet = true;
-  const output = html
+  const output = prerender(html)
     .replace(STYLESHEET, () => {
       if (!firstStylesheet) return '';
       firstStylesheet = false;
@@ -63,8 +130,9 @@ async function main() {
   await writeFile(`${OUT}/index.html`, output);
   await cp('assets', `${OUT}/assets`, { recursive: true });
   await writeFile(`${OUT}/.nojekyll`, '');
+  const version = await writeServiceWorker();
 
-  console.log(`Listo: ${OUT}/index.html, ${OUT}/${script}, ${OUT}/${styles}`);
+  console.log(`Listo: ${OUT}/index.html (prerenderizado), ${script}, ${styles}, sw.js (versión ${version})`);
 }
 
 main().catch((error) => {

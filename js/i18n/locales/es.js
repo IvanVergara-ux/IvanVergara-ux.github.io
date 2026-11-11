@@ -104,6 +104,9 @@ export default {
     whatsapp: 'WhatsApp',
     github: 'GitHub',
   },
+  offline: {
+    message: 'Sin conexión a internet. Puedes seguir viendo la página; WhatsApp y los enlaces funcionarán cuando vuelva la conexión.',
+  },
   footer: {
     tagline: 'Desarrollo web, aplicaciones móviles y software a la medida para empresas y emprendedores de Colombia y el mundo.',
     navTitle: 'Secciones',

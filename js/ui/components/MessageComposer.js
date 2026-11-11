@@ -21,6 +21,7 @@ export class MessageComposer {
 
   template() {
     const t = (key) => this.#i18n.t(key);
+    const message = this.#currentMessage();
     return html`
       <div class="composer">
         <fieldset class="composer__options">
@@ -36,9 +37,9 @@ export class MessageComposer {
         </fieldset>
         <figure class="composer__preview">
           <figcaption class="visually-hidden">${t('composer.previewLabel')}</figcaption>
-          <p class="bubble" data-ref="bubble" aria-live="polite"></p>
+          <p class="bubble" data-ref="bubble" aria-live="polite">${message}</p>
         </figure>
-        <a class="button button--primary composer__send" data-ref="send" href="#" target="_blank" rel="noopener noreferrer">
+        <a class="button button--primary composer__send" data-ref="send" href="${this.#whatsApp.build(message)}" target="_blank" rel="noopener noreferrer">
           ${t('composer.send')}
         </a>
         <p class="composer__hint">${t('composer.hint')}</p>

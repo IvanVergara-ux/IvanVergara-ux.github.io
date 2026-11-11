@@ -36,7 +36,7 @@ export class Header extends Component {
       if (event.target.closest('a[href^="#"]')) this.#setMenu(false);
     });
 
-    document.addEventListener('keydown', (event) => {
+    this.root.ownerDocument?.addEventListener('keydown', (event) => {
       if (event.key !== 'Escape' || !this.#menuOpen) return;
       this.#setMenu(false);
       this.root.querySelector('[data-menu-toggle]')?.focus();
