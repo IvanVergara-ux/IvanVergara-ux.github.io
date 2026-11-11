@@ -1,6 +1,8 @@
 // Datos personales y de contacto. Es el único archivo que hay que tocar para cambiarlos.
 
 export const siteConfig = Object.freeze({
+  // Dirección pública del sitio (para la vista previa al compartir y para Google)
+  siteUrl: 'https://ivanvergara-ux.github.io/',
   person: Object.freeze({
     fullName: 'Iván Vergara Mercado',
     shortName: 'Iván Vergara',
@@ -21,5 +23,8 @@ export const siteConfig = Object.freeze({
     { code: 'es', name: 'Español' },
     { code: 'en', name: 'English' },
   ]),
+  // Estadísticas: crea una cuenta gratis en https://www.goatcounter.com y pon aquí tu código
+  // (por ejemplo 'ivanvergara' si tu panel es ivanvergara.goatcounter.com). null = desactivadas.
+  analytics: Object.freeze({ goatcounter: null }),
   fallbackLocale: 'es',
 });

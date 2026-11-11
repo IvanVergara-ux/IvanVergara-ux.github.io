@@ -40,6 +40,10 @@ js/
 | Agregar GitHub | `github` en `js/config/site.config.js` |
 | Agregar un proyecto o una captura | `js/data/projects.js` (`image`, `links.repo`, `links.demo`) |
 | Cambiar las preguntas frecuentes | `js/data/faq.js` |
+| Cambiar los precios "desde" | `priceFrom` en `js/data/services.js` (en pesos; `null` lo oculta) |
+| Agregar testimonios | `js/data/testimonials.js` (la sección aparece sola cuando hay al menos uno) |
+| Activar estadísticas | `analytics.goatcounter` en `js/config/site.config.js` |
+| Cambiar la imagen al compartir el enlace | `assets/og-image.png` (1200 × 630) |
 | Cambiar las palabras que rotan en la portada | `js/data/hero.js` |
 | Cambiar un texto | `js/i18n/locales/es.js` y `en.js` |
 | Cambiar colores o fuentes | `css/tokens.css` |
@@ -77,6 +81,21 @@ No hace falta compilar a mano para publicar: GitHub lo hace solo (ver abajo).
    `node_modules/` y `dist/` no se suben (están en `.gitignore`).
 2. En el repositorio: **Settings → Pages → Source: GitHub Actions**.
 3. Cada vez que subas un cambio a `main`, el flujo `.github/workflows/deploy.yml` compila y publica el sitio. El avance se ve en la pestaña **Actions**.
+
+## Estadísticas
+
+Se usa [GoatCounter](https://www.goatcounter.com): gratis, sin cookies y sin datos personales (no necesita aviso de cookies).
+
+1. Crea una cuenta gratis en goatcounter.com y elige un código (por ejemplo `ivanvergara` → tu panel queda en `ivanvergara.goatcounter.com`).
+2. Pon ese código en `analytics.goatcounter` de `js/config/site.config.js` y publica.
+
+Se cuentan las visitas y, por separado, los clics en WhatsApp, correo y GitHub con la sección donde ocurrieron (por ejemplo `whatsapp/inicio`, `whatsapp/servicios`, `whatsapp/contacto`). No se cuenta nada en Live Server ni si el visitante activó "No rastrear".
+
+## Google y vista previa al compartir
+
+- `index.html` tiene las etiquetas de vista previa (imagen, título y descripción) que usan WhatsApp, Facebook y LinkedIn, y datos estructurados que le dicen a Google qué servicios ofreces y dónde.
+- La compilación genera `sitemap.xml` y `robots.txt`.
+- Para aparecer en Google más rápido: entra a [Google Search Console](https://search.google.com/search-console), agrega `https://ivanvergara-ux.github.io/` y envía el sitemap `sitemap.xml`.
 
 ## Seguridad
 

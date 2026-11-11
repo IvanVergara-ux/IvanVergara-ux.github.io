@@ -11,6 +11,8 @@ import { CountUp } from './services/CountUp.js';
 import { ScrollState } from './services/ScrollState.js';
 import { SectionSpy } from './services/SectionSpy.js';
 import { ServiceWorkerRegistrar } from './services/ServiceWorkerRegistrar.js';
+import { Analytics } from './services/Analytics.js';
+import { ClickTracker } from './services/ClickTracker.js';
 
 const region = (id) => document.getElementById(id);
 
@@ -44,6 +46,10 @@ function bootstrap() {
   spy.start();
   new ScrollState({ target: region('site-header') }).start();
   new ServiceWorkerRegistrar().register();
+
+  const analytics = new Analytics({ code: siteConfig.analytics.goatcounter });
+  analytics.pageview();
+  new ClickTracker({ analytics }).start();
 
   // Si la página ya venía prerenderizada, el visitante ya la está viendo: no se repite la animación de entrada.
   if (!document.documentElement.hasAttribute('data-prerendered')) {

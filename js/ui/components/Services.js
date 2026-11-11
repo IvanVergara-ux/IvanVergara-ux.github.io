@@ -2,6 +2,7 @@ import { Component } from '../Component.js';
 import { html } from '../../utils/html.js';
 import { icons } from '../icons.js';
 import { emblem } from '../emblems.js';
+import { formatCop } from '../../utils/money.js';
 
 // Explorador de servicios con el patrón de pestañas accesible (flechas, Inicio y Fin).
 // Al cambiar de pestaña solo se alternan atributos: no se repinta el componente.
@@ -83,6 +84,13 @@ export class Services extends Component {
           ${service.includes.map((item) => html`<li>${icons.check(16)} ${this.pick(item)}</li>`)}
         </ul>
         <p class="service-panel__fit"><strong>${this.t('services.fit')}:</strong> ${this.pick(service.fit)}</p>
+        ${service.priceFrom
+          ? html`<p class="service-panel__price">
+              <span>${this.t('services.priceFrom')}</span>
+              <strong>${formatCop(service.priceFrom, this.i18n.locale)}</strong>
+              <small>${this.t('services.priceNote')}</small>
+            </p>`
+          : ''}
         <a class="button button--primary" href="${href}" target="_blank" rel="noopener noreferrer"
           aria-label="${this.t('services.quoteLabel', { service: quote })}">
           ${this.t('services.quote')} ${icons.arrow(18)}

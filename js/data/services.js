@@ -1,5 +1,6 @@
 // "quote" se inserta en el mensaje de WhatsApp del botón "Cotizar".
 // "icon" es un emblema de js/ui/emblems.js.
+// "priceFrom" es el precio inicial en pesos colombianos (null = no se muestra).
 
 export const services = Object.freeze([
   {
@@ -16,6 +17,7 @@ export const services = Object.freeze([
       { es: 'Optimización para aparecer en Google', en: 'Optimized to rank on Google' },
       { es: 'Contacto directo por WhatsApp', en: 'Direct WhatsApp contact' },
     ],
+    priceFrom: 700000,
     quote: { es: 'una página web', en: 'a website' },
   },
   {
@@ -32,6 +34,7 @@ export const services = Object.freeze([
       { es: 'Gestión de pedidos y notificaciones', en: 'Order management and notifications' },
       { es: 'Panel para administrar productos', en: 'Admin panel for your products' },
     ],
+    priceFrom: 1800000,
     quote: { es: 'una tienda en línea', en: 'an online store' },
   },
   {
@@ -48,6 +51,7 @@ export const services = Object.freeze([
       { es: 'Conexión con base de datos o API', en: 'Database or API integration' },
       { es: 'Instalador listo para usar', en: 'Ready-to-install build' },
     ],
+    priceFrom: 3000000,
     quote: { es: 'una aplicación móvil', en: 'a mobile app' },
   },
   {
@@ -64,6 +68,7 @@ export const services = Object.freeze([
       { es: 'Reportes y consultas en tiempo real', en: 'Real-time reports and queries' },
       { es: 'API para integrarse con otras herramientas', en: 'API to connect with other tools' },
     ],
+    priceFrom: 2500000,
     quote: { es: 'un software a la medida', en: 'custom software' },
   },
 ]);

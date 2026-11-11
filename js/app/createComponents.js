@@ -12,6 +12,7 @@ import { services } from '../data/services.js';
 import { processSteps } from '../data/process.js';
 import { commitments } from '../data/commitments.js';
 import { faq } from '../data/faq.js';
+import { testimonials } from '../data/testimonials.js';
 import { needs } from '../data/needs.js';
 import { heroWords, trustPoints } from '../data/hero.js';
 import { technologyLogos, studiedTechnologies } from '../data/technologies.js';
@@ -33,6 +34,7 @@ import { MessageComposer } from '../ui/components/MessageComposer.js';
 import { Footer } from '../ui/components/Footer.js';
 import { FloatingContact } from '../ui/components/FloatingContact.js';
 import { OfflineNotice } from '../ui/components/OfflineNotice.js';
+import { Testimonials } from '../ui/components/Testimonials.js';
 
 export function createI18n() {
   return new I18n({ dictionaries: { es, en }, fallback: siteConfig.fallbackLocale });
@@ -58,6 +60,7 @@ export function createComponents({ region, i18n, browser }) {
     }),
     new Services({ root: region('servicios'), i18n, services, whatsApp }),
     new Projects({ root: region('proyectos'), i18n, projects, card: new ProjectCard({ i18n }) }),
+    new Testimonials({ root: region('testimonios'), i18n, items: testimonials }),
     new Commitments({ root: region('compromisos'), i18n, items: commitments }),
     new Process({ root: region('proceso'), i18n, steps: processSteps }),
     new Faq({ root: region('preguntas'), i18n, items: faq }),

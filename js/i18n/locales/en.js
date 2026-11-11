@@ -55,9 +55,15 @@ export default {
     fit: 'Ideal for',
     quote: 'Free quote',
     quoteLabel: 'Get a quote for {service} on WhatsApp',
+    priceFrom: 'From',
+    priceNote: 'Final price depends on scope. Quotes are free.',
     tabs: 'Available services',
     includes: 'Includes',
     message: 'Hi Iván, I would like a free quote for {service}.',
+  },
+  testimonials: {
+    title: 'What my clients say',
+    intro: 'Feedback from businesses I have worked with.',
   },
   commitments: {
     title: 'Why work with me?',

@@ -55,9 +55,15 @@ export default {
     fit: 'Ideal para',
     quote: 'Cotizar gratis',
     quoteLabel: 'Cotizar {service} por WhatsApp',
+    priceFrom: 'Desde',
+    priceNote: 'El valor final depende del alcance. La cotización es gratis.',
     tabs: 'Servicios disponibles',
     includes: 'Incluye',
     message: 'Hola Iván, me gustaría una cotización gratis para {service}.',
+  },
+  testimonials: {
+    title: 'Lo que dicen mis clientes',
+    intro: 'Opiniones de negocios con los que he trabajado.',
   },
   commitments: {
     title: '¿Por qué trabajar conmigo?',
