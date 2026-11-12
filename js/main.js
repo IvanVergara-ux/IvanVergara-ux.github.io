@@ -2,7 +2,7 @@
 // y se los pasa a la fábrica de componentes (la misma que usa la compilación).
 
 import { siteConfig } from './config/site.config.js';
-import { createComponents, createI18n } from './app/createComponents.js';
+import { createComponents, createCurrencyState, createI18n } from './app/createComponents.js';
 import { LocalePreference, detectInitialLocale } from './i18n/LocalePreference.js';
 import { DocumentMeta } from './services/DocumentMeta.js';
 import { MotionPreference } from './services/MotionPreference.js';
@@ -13,8 +13,17 @@ import { SectionSpy } from './services/SectionSpy.js';
 import { ServiceWorkerRegistrar } from './services/ServiceWorkerRegistrar.js';
 import { Analytics } from './services/Analytics.js';
 import { ClickTracker } from './services/ClickTracker.js';
+import { ExchangeRates } from './pricing/ExchangeRates.js';
 
 const region = (id) => document.getElementById(id);
+
+const safeLocalStorage = () => {
+  try {
+    return window.localStorage;
+  } catch {
+    return null;
+  }
+};
 
 function bootstrap() {
   const i18n = createI18n();
@@ -28,7 +37,10 @@ function bootstrap() {
     isOnline: () => navigator.onLine,
   };
 
-  const { header, components, navigation } = createComponents({ region, i18n, browser });
+  const currencyPreference = new LocalePreference({ key: 'portfolio.currency' });
+  const currency = createCurrencyState({ chosen: currencyPreference.load() });
+
+  const { header, components, navigation } = createComponents({ region, i18n, browser, currency });
   const meta = new DocumentMeta({ i18n });
 
   const renderAll = () => {
@@ -40,6 +52,16 @@ function bootstrap() {
   i18n.subscribe(renderAll);
 
   renderAll();
+
+  // Tasas del día para mostrar los precios en otras monedas (no bloquea la carga de la página).
+  const { pricing } = siteConfig;
+  new ExchangeRates({ url: pricing.ratesUrl, storage: safeLocalStorage() })
+    .load(pricing.currencies.filter((code) => code !== pricing.base))
+    .then((result) => result && currency.setRates(result))
+    .catch(() => undefined);
+  currency.subscribe(() => {
+    if (currency.chosen) currencyPreference.save(currency.chosen);
+  });
 
   const spy = new SectionSpy({ ids: navigation.map((item) => item.href.slice(1)) });
   spy.onChange((id) => header.setActiveSection(id));

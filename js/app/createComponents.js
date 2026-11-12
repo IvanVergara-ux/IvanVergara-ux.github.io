@@ -21,6 +21,7 @@ import en from '../i18n/locales/en.js';
 import { I18n } from '../i18n/I18n.js';
 import { WhatsAppLinkBuilder } from '../services/WhatsAppLinkBuilder.js';
 import { buildPortfolioStats } from '../services/PortfolioStats.js';
+import { CurrencyState } from '../pricing/CurrencyState.js';
 import { Header } from '../ui/components/Header.js';
 import { Hero } from '../ui/components/Hero.js';
 import { Services } from '../ui/components/Services.js';
@@ -44,8 +45,9 @@ export function createI18n() {
  * @param region      función que devuelve el elemento raíz de una región por su id
  * @param i18n        servicio de idioma
  * @param browser     { createRotator, countUp, isOnline } — dependencias del navegador
+ * @param currency    estado de la moneda de los precios (si no llega, solo se muestran en COP)
  */
-export function createComponents({ region, i18n, browser }) {
+export function createComponents({ region, i18n, browser, currency = createCurrencyState() }) {
   const { person, brand, contact, languages } = siteConfig;
   const whatsApp = new WhatsAppLinkBuilder(contact.whatsapp);
   const stats = buildPortfolioStats({ projects, technologyLogos, studiedTechnologies, languages });
@@ -58,7 +60,7 @@ export function createComponents({ region, i18n, browser }) {
       root: region('inicio'), i18n, person, logo: brand.logo, words: heroWords, trustPoints, stats, whatsApp,
       createRotator: browser.createRotator, countUp: browser.countUp,
     }),
-    new Services({ root: region('servicios'), i18n, services, whatsApp }),
+    new Services({ root: region('servicios'), i18n, services, whatsApp, currency }),
     new Projects({ root: region('proyectos'), i18n, projects, card: new ProjectCard({ i18n }) }),
     new Testimonials({ root: region('testimonios'), i18n, items: testimonials }),
     new Commitments({ root: region('compromisos'), i18n, items: commitments }),
@@ -74,6 +76,12 @@ export function createComponents({ region, i18n, browser }) {
   ];
 
   return { header, components, navigation };
+}
+
+/** Estado de la moneda con la configuración del sitio. */
+export function createCurrencyState({ chosen = null } = {}) {
+  const { base, currencies, defaults } = siteConfig.pricing;
+  return new CurrencyState({ base, currencies, defaults, chosen });
 }
 
 /** Primera frase de la portada, para el HTML prerenderizado. */

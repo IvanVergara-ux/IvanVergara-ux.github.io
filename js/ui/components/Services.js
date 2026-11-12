@@ -2,10 +2,10 @@ import { Component } from '../Component.js';
 import { html } from '../../utils/html.js';
 import { icons } from '../icons.js';
 import { emblem } from '../emblems.js';
-import { formatCop } from '../../utils/money.js';
+import { formatPrice } from '../../utils/money.js';
 
 // Explorador de servicios con el patrón de pestañas accesible (flechas, Inicio y Fin).
-// Al cambiar de pestaña solo se alternan atributos: no se repinta el componente.
+// Al cambiar de pestaña o de moneda solo se actualizan atributos y textos: no se repinta el componente.
 
 const KEY_STEPS = Object.freeze({ ArrowDown: 1, ArrowRight: 1, ArrowUp: -1, ArrowLeft: -1 });
 
@@ -13,16 +13,24 @@ export class Services extends Component {
   #services;
   #whatsApp;
   #activeId;
+  #currency;
 
-  constructor({ services, whatsApp, ...deps }) {
+  constructor({ services, whatsApp, currency, ...deps }) {
     super(deps);
     this.#services = services;
     this.#whatsApp = whatsApp;
+    this.#currency = currency;
     this.#activeId = services[0]?.id;
+    currency.subscribe(() => this.#refreshPrices());
   }
 
   bindEvents() {
     this.root.addEventListener('click', (event) => {
+      const option = event.target.closest('[data-currency]');
+      if (option) {
+        this.#currency.choose(option.dataset.currency);
+        return;
+      }
       const tab = event.target.closest('[role="tab"]');
       if (tab) this.#select(tab.dataset.service);
     });
@@ -84,20 +92,77 @@ export class Services extends Component {
           ${service.includes.map((item) => html`<li>${icons.check(16)} ${this.pick(item)}</li>`)}
         </ul>
         <p class="service-panel__fit"><strong>${this.t('services.fit')}:</strong> ${this.pick(service.fit)}</p>
-        ${service.priceFrom
-          ? html`<p class="service-panel__price">
-              <span>${this.t('services.priceFrom')}</span>
-              <strong>${formatCop(service.priceFrom, this.i18n.locale)}</strong>
-              <small>${this.t('services.priceNote')}</small>
-              <small class="service-panel__payment">${this.t('services.payment')}</small>
-            </p>`
-          : ''}
+        ${service.priceFrom ? this.#price(service.priceFrom) : ''}
         <a class="button button--primary" href="${href}" target="_blank" rel="noopener noreferrer"
           aria-label="${this.t('services.quoteLabel', { service: quote })}">
           ${this.t('services.quote')} ${icons.arrow(18)}
         </a>
       </section>
     `;
+  }
+
+  #price(value) {
+    const code = this.#currency.current(this.i18n.locale);
+    const converted = code !== this.#currency.base;
+    return html`
+      <div class="service-panel__price">
+        <span>${this.t('services.priceFrom')}</span>
+        <strong data-price="${value}" title="${this.#conversions(value)}">${this.#priceText(value, code)}</strong>
+        <div class="currency-switch" role="group" aria-label="${this.t('services.viewIn')}"
+          ${this.#currency.hasRates ? '' : 'hidden'}>
+          <span class="currency-switch__label">${this.t('services.viewIn')}</span>
+          ${this.#currency.available().map((option) => html`
+            <button type="button" class="currency-switch__option" data-currency="${option}"
+              aria-pressed="${option === code}">${option}</button>`)}
+        </div>
+        <small class="service-panel__rate" data-rate-note ${converted ? '' : 'hidden'}>
+          ${this.t('services.approx')}
+          <a href="https://www.exchangerate-api.com" target="_blank" rel="noopener noreferrer">${this.t('services.ratesBy')}</a>
+        </small>
+        <small>${this.t('services.priceNote')}</small>
+        <small class="service-panel__payment">${this.t('services.payment')}</small>
+      </div>
+    `;
+  }
+
+  #priceText(value, code) {
+    const amount = this.#currency.convert(value, code);
+    const text = formatPrice(amount, code, this.i18n.locale);
+    return code === this.#currency.base ? text : `≈ ${text}`;
+  }
+
+  /** Texto al pasar el cursor: el precio en las demás monedas. */
+  #conversions(value) {
+    if (!this.#currency.hasRates) return '';
+    return this.#currency.available()
+      .map((code) => this.#priceText(value, code))
+      .join(' · ');
+  }
+
+  #refreshPrices() {
+    const code = this.#currency.current(this.i18n.locale);
+    const converted = code !== this.#currency.base;
+    this.root.querySelectorAll('[data-price]').forEach((element) => {
+      const value = Number(element.dataset.price);
+      element.textContent = this.#priceText(value, code);
+      element.title = this.#conversions(value);
+    });
+    this.root.querySelectorAll('.currency-switch').forEach((group) => {
+      if (group.hidden && this.#currency.hasRates) {
+        group.hidden = false;
+        group.querySelectorAll('[data-currency]').forEach((button) => button.remove());
+        for (const option of this.#currency.available()) {
+          group.insertAdjacentHTML('beforeend', html`<button type="button" class="currency-switch__option"
+            data-currency="${option}" aria-pressed="false">${option}</button>`.toString());
+        }
+      }
+      group.querySelectorAll('[data-currency]').forEach((button) => {
+        button.setAttribute('aria-pressed', String(button.dataset.currency === code));
+      });
+    });
+    this.root.querySelectorAll('[data-rate-note]').forEach((note) => {
+      note.hidden = !converted;
+    });
   }
 
   #select(id, { focus = false } = {}) {

@@ -26,5 +26,13 @@ export const siteConfig = Object.freeze({
   // Estadísticas: crea una cuenta gratis en https://www.goatcounter.com y pon aquí tu código
   // (por ejemplo 'ivanvergara' si tu panel es ivanvergara.goatcounter.com). null = desactivadas.
   analytics: Object.freeze({ goatcounter: 'ivanvergara' }),
+  // Precios: se escriben en pesos colombianos (js/data/services.js) y el visitante puede verlos
+  // convertidos con la tasa del día. defaults = moneda inicial según el idioma de la página.
+  pricing: Object.freeze({
+    base: 'COP',
+    currencies: Object.freeze(['COP', 'USD', 'EUR', 'MXN']),
+    defaults: Object.freeze({ es: 'COP', en: 'USD' }),
+    ratesUrl: 'https://open.er-api.com/v6/latest/COP',
+  }),
   fallbackLocale: 'es',
 });
