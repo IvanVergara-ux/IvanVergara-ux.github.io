@@ -6,9 +6,12 @@
 //     (si no hay ninguna guardada, usa la red).
 //   - Resto de archivos del sitio: primero lo guardado; si no está, la red.
 //   - Cada compilación nueva cambia la versión y borra la caché anterior.
+//   - Solo atiende las rutas del portafolio: otros proyectos publicados en el mismo dominio no se tocan.
 
 const CACHE = 'portafolio-__VERSION__';
 const PRECACHE = __PRECACHE__;
+const ROOT = new URL('./', self.location).pathname;
+const PRECACHE_PATHS = new Set(PRECACHE.map((path) => new URL(path, self.location).pathname));
 
 self.addEventListener('install', (event) => {
   event.waitUntil(
@@ -39,6 +42,11 @@ self.addEventListener('fetch', (event) => {
   if (request.method !== 'GET') return;
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Solo se encarga del portafolio. Otras páginas del mismo dominio
+  // (por ejemplo /propuesta-royal-kings/) van directo a la red, sin pasar por esta caché.
+  const own = url.pathname === ROOT || url.pathname === `${ROOT}index.html` || PRECACHE_PATHS.has(url.pathname);
+  if (!own) return;
 
   if (request.mode === 'navigate') {
     const network = fetch(request).then((response) => saveCopy('./', response));
